@@ -50,6 +50,19 @@
                     </div>
                 {%endif%}
             </div>
+
+            <div class="form-group">
+                {{ form.people_email.label }}
+                {{ form.people_email(class_="form-control") }}
+
+                {% if form.people_email.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.people_email.errors %}
+                             <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {%endif%}
+            </div>
  
                 {{ form.submit(class_="btn btn-success") }}
             </form>

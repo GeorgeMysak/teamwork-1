@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms import validators
-from wtforms.fields.html5 import DateField
+from wtforms.fields import DateField
 
 
 class UserForm(FlaskForm):

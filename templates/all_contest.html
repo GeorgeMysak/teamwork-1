@@ -51,10 +51,13 @@
              </tr>
             {% for item in result %}
             <tr>
+                <td scope="row">{{ item.fest_name }}</td>
                 <td scope="row">{{ item.contest_name }}</td>
                 <td>
-                    <a href="/edit_contest/{{item.contest_name}}" type="button" class="btn btn-warning">Edit</a>
-                    <a href="/delete_contest/{{item.contest_name}}" type="button" class="btn btn-danger">Delete</a>
+                    {% if (session['role'] == 'people_email') and (item.people_email == session['people_email']) %}
+                        <a href="/edit_contest/{{item.contest_name}}" type="button" class="btn btn-warning">Edit</a>
+                        <a href="/delete_contest/{{item.contest_name}}" type="button" class="btn btn-danger">Delete</a>
+                    {% endif %}
                 </td>
              </tr>
             {% endfor %}

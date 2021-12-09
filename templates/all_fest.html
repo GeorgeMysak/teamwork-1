@@ -41,8 +41,14 @@
                 <td scope="row">{{ item.fest_name }}</td>
                 <td scope="row">{{ item.fest_date }}</td>
                 <td>
-                    <a href="/edit_fest/{{item.fest_name}}" type="button" class="btn btn-warning">Edit</a>
-                    <a href="/delete_fest/{{item.fest_name}}" type="button" class="btn btn-danger">Delete</a>
+                    {% if session['role'] == 'admin' %}
+                        <a href="/edit_fest/{{item.fest_name}}" type="button" class="btn btn-warning">Edit</a>
+                        <a href="/delete_fest/{{item.fest_name}}" type="button" class="btn btn-danger">Delete</a>
+                    {% endif %}
+                    {% if (session['role'] == 'people_email') and (item.people_email == session['people_email']) %}
+                        <a href="/edit_fest/{{item.fest_name}}" type="button" class="btn btn-warning">Edit</a>
+                        <a href="/delete_fest/{{item.fest_name}}" type="button" class="btn btn-danger">Delete</a>
+                    {% endif %}
                 </td>
              </tr>
             {% endfor %}

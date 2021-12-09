@@ -8,7 +8,7 @@ from Forms.PeopleFormEdit import PeopleFormEdit
 from Forms.FestFormEdit import FestFormEdit
 from Forms.ContestFormEdit import ContestFormEdit
 from Forms.PlaceFormEdit import PlaceFormEdit
-from Forms.CityForm import CityForm
+#from Forms.CityForm import CityForm
 from Forms.SearchForm import SearchForm
 from Forms.LoginForm import LoginForm
 from Forms.RegistrationFrom import RegistrationForm
@@ -22,11 +22,11 @@ import psycopg2
 app = Flask(__name__)
 app.secret_key = 'key'
 
-ENV = ''
+ENV = 'dev'
 
 if ENV == 'dev':
     app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:xu40e5@localhost/LABA3'#'postgres://postgres:postgres@localhost:5432/postgresdb'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://postgres:1234@localhost:5432/postgres'#'postgresql://postgres:xu40e5@localhost/teamwork'#'postgres://postgres:postgres@localhost:5432/postgresdb'
 else:
     app.debug = False
     app.config['SECRET_KEY'] = 'laba3marina'
@@ -37,7 +37,7 @@ db = SQLAlchemy(app)
 
 class Contest(db.Model):
     tablename = 'contest'
-    contest_name = db.Column(db.String(20), primary_key=True)
+    contest_name = db.Column(db.String(300), primary_key=True)
     fest_name = db.Column(db.String(20), db.ForeignKey('fest.fest_name'))
 
 
@@ -247,23 +247,20 @@ theatre = Place(place_name='theatre',
 # insert into Contest (contest_name, fest_name) values ('bottle of wine', 'musical_fest');
 # insert into Contest (contest_name, fest_name) values ('animal', 'animal_fest');
 
-ball = Contest(contest_name='ball',
+ball = Contest(contest_name='FOOTBALLFEST is the ultimate 3 day adult football tour (6 a-side) for Male and Female teams. Hosted in Bournemouth, you can enjoy the award winning beaches, vibrant nightlife, play football and have a good time! All at an affordable price',
                fest_name='football_fest'
                )
 
-present = Contest(contest_name='present',
+present = Contest(contest_name='The Call for Proposals at MAA MathFest 2022 is coming soon! Please keep checking here for the latest updates, as the submission portal will launch in the coming few weeks. In the meantime, please email meetings@maa.org with any questions.',
                   fest_name='math_fest'
                   )
 
-music = Contest(contest_name='music',
+music = Contest(contest_name='The worlds best music festivals span Glastonbury, Tomorrowland, Coachella, Primavera Sound, UMF and many more, across the continents of Europe, North America, South America, Africa and Asia.',
                 fest_name='musical_fest'
                 )
 
-bottle_of_wine = Contest(contest_name='bottle of wine',
-                         fest_name='musical_fest'
-                         )
 
-animal = Contest(contest_name='animal',
+animal = Contest(contest_name='ANIMAL FEST is a two-day event addressed to lovers of all companion animals, it is a real paradise for enthusiasts of dogs, cats, aquarium and terrariums, exotic birds and smaller animals',
                    fest_name='animal_fest'
                    )
 
@@ -276,7 +273,7 @@ ddd.people_fest.append(football_fest)
 football_fest.fest_contest.append(ball)
 math_fest.fest_contest.append(present)
 musical_fest.fest_contest.append(music)
-musical_fest.fest_contest.append(bottle_of_wine)
+#musical_fest.fest_contest.append(bottle_of_wine)
 animal_fest.fest_contest.append(animal)
 
 food_fest.place_name_fk.append(museum)
@@ -295,7 +292,9 @@ db.session.add_all([aaa, bbb, ccc, ddd, eee,admin,
                     food_fest, musical_fest, math_fest, animal_fest, football_fest,
                     Kyiv, Odessa,Zhitomyr, Carpathians, Kharkov,
                     museum, club, restaurant, stadion, theatre,
-                    ball, present, music, bottle_of_wine, animal
+                    ball, present, music,
+                    #bottle_of_wine,
+                    animal
 
                     ])
 
@@ -448,7 +447,7 @@ def edit_fest(name):
             return redirect('/fest')
         else:
             if not form.validate_date():
-                form.people_birthday.errors = ['should be >1900']
+                form.fest_date.errors = ['should be > 2020']
             return render_template('edit_fest.html', form=form)
 
 
@@ -587,14 +586,15 @@ def create_fest():
         if form.validate() and form.validate_date():
             new_fest = Fest(
                 fest_name=form.fest_name.data,
-                fest_date=form.fest_date.data.strftime("%Y-%m-%d")
+                fest_date=form.fest_date.data.strftime("%Y-%m-%d"),
+                people_email=form.people_email.data
             )
             db.session.add(new_fest)
             db.session.commit()
             return redirect('/fest')
         else:
             if not form.validate_date():
-                form.fest_date.errors = ['should be >2018']
+                form.fest_date.errors = ['should be > 2020']
             return render_template('create_fest.html', form=form)
     elif request.method == 'GET':
         return render_template('create_fest.html', form=form)

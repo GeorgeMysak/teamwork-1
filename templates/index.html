@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Fest</title>
+    <title>Find Events</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
@@ -18,25 +18,29 @@
         {% if session['role'] == 'admin' %}
 
             <li class="nav-item"><a class="nav-link" href="/people">People</a></li>
-            <li class="nav-item"><a class="nav-link" href="/fest">Fest </a></li>
-            <li class="nav-item"><a class="nav-link" href="/contest">Contest</a></li>
+            <li class="nav-item"><a class="nav-link" href="/fest">Event </a></li>
+            <li class="nav-item"><a class="nav-link" href="/contest">Event's Info</a></li>
             <li class="nav-item"><a class="nav-link" href="/place">Place</a></li>
-<!--            <li class="nav-item"><a class="nav-link" href="/city">City</a></li>
-            <li class="nav-item"><a class="nav-link" href="/clasteresation">Cluster</a></li>
-            <li class="nav-item"><a class="nav-link" href="/regretion">Correlation</a></li>
-            <li class="nav-item"><a class="nav-link" href="/clasification">Clasification</a></li>
-            <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>-->
 
         {% endif %}
+
+        {% if session['role'] == 'people_email' %}
+            <li class="nav-item"><a class="nav-link" href="/fest">Event </a></li>
+            <li class="nav-item"><a class="nav-link" href="/contest">Event's Info</a></li>
+            <li class="nav-item"><a class="nav-link" href="/place">Place</a></li>
+
+         {% endif %}
+
         {% if session['role'] != 'unlogged' %}
             <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
         {% endif %}
+
         {% if session['people_email'] %}
             <li class="align-self-end" style="margin-left: auto">
                 <a class="nav-link" href="/">{{ session['people_email'] }}</a>
             </li>
             <li class="align-self-end">
-                <a class="nav-link" href="/logout">logout</a>
+                <a class="nav-link" href="/logout">Logout</a>
             </li>
         {% endif %}
     </ul>
@@ -45,7 +49,9 @@
 
 <div class="container">
 
-    {% block content %}<h1>We like to see you there!</h1>{% endblock %}
+    {% block content %}<h1>
+    Hi
+    </h1>{% endblock %}
 
 </div>
 

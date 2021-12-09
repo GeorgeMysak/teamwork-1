@@ -15,4 +15,4 @@ class RegistrationForm(FlaskForm):
         validators.EqualTo('people_password', message='Passwords must match')
     ])
 
-    submit = SubmitField("sign up")
+    submit = SubmitField("Sign Up")
